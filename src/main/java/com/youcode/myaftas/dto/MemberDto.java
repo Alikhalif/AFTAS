@@ -18,4 +18,6 @@ public class MemberDto {
     private String nationality;
 
     private IdentityDocumentType identityDocument;
+
+    private String identityNumber;
 }
