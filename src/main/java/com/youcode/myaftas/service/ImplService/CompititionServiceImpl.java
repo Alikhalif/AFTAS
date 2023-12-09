@@ -11,6 +11,8 @@ import com.youcode.myaftas.repositories.CompetitionRepository;
 import com.youcode.myaftas.service.CompititionService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -25,11 +27,11 @@ public class CompititionServiceImpl implements CompititionService {
     private ModelMapper modelMapper;
 
     @Override
-    public CompetitionDto create(CompetitionDto competitionDto){
+    public CompetitionRespDto create(CompetitionDto competitionDto){
         Competition competition = modelMapper.map(competitionDto, Competition.class);
 
         competition = competitionRepository.save(competition);
-        return modelMapper.map(competition, CompetitionDto.class);
+        return modelMapper.map(competition, CompetitionRespDto.class);
     }
 
     @Override
@@ -40,12 +42,12 @@ public class CompititionServiceImpl implements CompititionService {
     }
 
     @Override
-    public CompetitionDto getOne(String code){
+    public CompetitionRespDto getOne(String code){
         Optional<Competition> competition = competitionRepository.findByCode(code);
         if (competition == null) {
             throw new ResourceNotFoundException("Competition not found with code " + code);
         }
-        return modelMapper.map(competition, CompetitionDto.class);
+        return modelMapper.map(competition, CompetitionRespDto.class);
     }
 
     @Override
@@ -54,7 +56,7 @@ public class CompititionServiceImpl implements CompititionService {
     }
 
     @Override
-    public CompetitionDto update(String code, CompetitionDto competitionDto){
+    public CompetitionRespDto update(String code, CompetitionDto competitionDto){
         Competition competition = competitionRepository.findById(code)
                 .orElseThrow(() -> new ResourceNotFoundException("Compitition not found with code : "+code));
 
@@ -79,8 +81,13 @@ public class CompititionServiceImpl implements CompititionService {
         }
 
         competition = competitionRepository.save(competition);
-        return modelMapper.map(competition, CompetitionDto.class);
+        return modelMapper.map(competition, CompetitionRespDto.class);
     }
 
+    @Override
+    public Page<CompetitionRespDto> findWithPagination(Pageable pageable) {
+        Page<Competition> competitionsPage = competitionRepository.findAll(pageable);
+        return competitionsPage.map(competition -> modelMapper.map(competition, CompetitionRespDto.class));
+    }
 
 }

@@ -8,6 +8,8 @@ import com.youcode.myaftas.repositories.MemberRepository;
 import com.youcode.myaftas.service.MemberService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -22,10 +24,10 @@ public class MemberServiceImpl implements MemberService {
     private ModelMapper modelMapper;
 
     @Override
-    public MemberDto create(MemberDto memberDto){
+    public MemberRespDto create(MemberDto memberDto){
         Member member = modelMapper.map(memberDto, Member.class);
         member = memberRepository.save(member);
-        return modelMapper.map(member, MemberDto.class);
+        return modelMapper.map(member, MemberRespDto.class);
     }
 
     @Override
@@ -36,10 +38,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberDto getOne(Integer id){
+    public MemberRespDto getOne(Integer id){
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Question not found with id "+id));
-        return modelMapper.map(member, MemberDto.class);
+        return modelMapper.map(member, MemberRespDto.class);
     }
 
     @Override
@@ -48,7 +50,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberDto update(Integer id, MemberDto memberDto){
+    public MemberRespDto update(Integer id, MemberDto memberDto){
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Question not found with id "+id));
 
@@ -72,7 +74,13 @@ public class MemberServiceImpl implements MemberService {
         }
 
         member = memberRepository.save(member);
-        return modelMapper.map(member, MemberDto.class);
+        return modelMapper.map(member, MemberRespDto.class);
     }
 
+
+    @Override
+    public Page<MemberRespDto> findWithPagination(Pageable pageable) {
+        Page<Member> membersPage = memberRepository.findAll(pageable);
+        return membersPage.map(member -> modelMapper.map(member, MemberRespDto.class));
+    }
 }

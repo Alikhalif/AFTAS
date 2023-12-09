@@ -2,13 +2,16 @@ package com.youcode.myaftas.service;
 
 import com.youcode.myaftas.dto.CompetitionDto;
 import com.youcode.myaftas.dto.rasponseDTO.CompetitionRespDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface CompititionService {
-    CompetitionDto create(CompetitionDto competitionDto);
+    CompetitionRespDto create(CompetitionDto competitionDto);
     void delete(String id);
-    CompetitionDto getOne(String id);
+    CompetitionRespDto getOne(String id);
     List<CompetitionRespDto> getAll();
-    CompetitionDto update(String code, CompetitionDto competitionDto);
+    CompetitionRespDto update(String code, CompetitionDto competitionDto);
+    Page<CompetitionRespDto> findWithPagination(Pageable pageable);
 }
