@@ -2,6 +2,7 @@ package com.youcode.myaftas.service.ImplService;
 
 import com.youcode.myaftas.Exception.ResourceNotFoundException;
 import com.youcode.myaftas.dto.MemberDto;
+import com.youcode.myaftas.dto.rasponseDTO.MemberRespDto;
 import com.youcode.myaftas.entities.Member;
 import com.youcode.myaftas.repositories.MemberRepository;
 import com.youcode.myaftas.service.MemberService;
@@ -42,8 +43,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<MemberDto> getAll(){
-        return Arrays.asList(modelMapper.map(memberRepository.findAll(), MemberDto[].class));
+    public List<MemberRespDto> getAll(){
+        return Arrays.asList(modelMapper.map(memberRepository.findAll(), MemberRespDto[].class));
     }
 
     @Override
