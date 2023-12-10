@@ -1,9 +1,9 @@
 package com.youcode.myaftas.Controller;
 
-import com.youcode.myaftas.dto.CompetitionDto;
+import com.youcode.myaftas.Utils.RankingId;
 import com.youcode.myaftas.dto.MemberDto;
-import com.youcode.myaftas.dto.rasponseDTO.CompetitionRespDto;
-import com.youcode.myaftas.service.CompititionService;
+import com.youcode.myaftas.dto.RankingDto;
+import com.youcode.myaftas.service.RankingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -17,16 +17,17 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/api/compitition")
-public class CompititionController {
+@RequestMapping("/api/ranking")
+public class RankingController {
     @Autowired
-    private CompititionService compititionService;
+    private RankingService rankingService;
+
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> createCompitition(@Valid @RequestBody CompetitionDto competitionDto){
+    public ResponseEntity<Map<String, Object>> createRanking(@Valid @RequestBody RankingDto rankingDto){
         Map<String, Object> message = new HashMap<>();
         try{
-            message.put("message",compititionService.create(competitionDto));
+            message.put("message",rankingService.create(rankingDto));
             return new ResponseEntity<>(message, HttpStatus.CREATED);
         }catch (Exception e){
             message.put("error", e);
@@ -34,62 +35,62 @@ public class CompititionController {
         }
     }
 
-    @DeleteMapping("/{code}")
-    public ResponseEntity<Map<String, Object>> deleteMember(@PathVariable String code){
+
+    @DeleteMapping("/{code}/{id}")
+    public ResponseEntity<Map<String, Object>> deleteRanking(@PathVariable String code, @PathVariable Integer id){
         Map<String, Object> message = new HashMap<>();
         try{
-            compititionService.delete(code);
-            message.put("messge", "Compitition deleted successfully");
+            rankingService.delete(code, id);
+            message.put("messge", "Ranking deleted successfully");
             return new ResponseEntity<>(message, HttpStatus.OK);
         }catch (Exception e){
-            message.put("error", "Compitition Not deleted");
+            message.put("error", "Ranking Not deleted");
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
     }
 
-    @GetMapping("/{code}")
-    public ResponseEntity<Map<String, Object>> getOneMember(@PathVariable String code){
+    @GetMapping("/{code}/{id}")
+    public ResponseEntity<Map<String, Object>> getOneRanking(@PathVariable String code, @PathVariable Integer id){
         Map<String, Object> message = new HashMap<>();
         try{
-            message.put("message", compititionService.getOne(code));
+            message.put("message", rankingService.getOne(code, id));
             return new ResponseEntity<>(message, HttpStatus.OK);
         }catch (Exception e){
-            message.put("error", "Compitition Not deleted");
+            message.put("error", "Ranking Not found");
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Map<String, Object>> getAllMembers(){
+    public ResponseEntity<Map<String, Object>> getAllRankings(){
         Map<String, Object> message = new HashMap<>();
         try{
-            message.put("message", compititionService.getAll());
+            message.put("message", rankingService.findAll());
             return new ResponseEntity<>(message, HttpStatus.OK);
         }catch (Exception e){
-            message.put("error", "Compitition Not found");
+            message.put("error", "Ranking Not found");
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
     }
 
-    @PutMapping("/{code}")
-    public ResponseEntity<Map<String, Object>> updateQuestion(@PathVariable String code, @Valid @RequestBody CompetitionDto competitionDto){
+    @PutMapping("/{code}/{id}")
+    public ResponseEntity<Map<String, Object>> updateRanking(@PathVariable String code, @PathVariable Integer id, @Valid @RequestBody RankingDto rankingDto){
         Map<String, Object> message = new HashMap<>();
         try{
-            message.put("message", compititionService.update(code, competitionDto));
+            message.put("message", rankingService.update(code, id, rankingDto));
             return new ResponseEntity<>(message, HttpStatus.OK);
         }catch (Exception e){
-            message.put("error", "Compitition Not found");
+            message.put("error", "Ranking Not found");
             return new ResponseEntity<>(message, HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
     @GetMapping("/paginated")
-    public ResponseEntity<List<CompetitionRespDto>> getPaginatedCompetitions(
+    public ResponseEntity<List<RankingDto>> getPaginatedRankings(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size
     ) {
         PageRequest pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(compititionService.findWithPagination(pageable).getContent());
+        return ResponseEntity.ok(rankingService.findWithPagination(pageable).getContent());
     }
-
 }
