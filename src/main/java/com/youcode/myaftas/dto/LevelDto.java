@@ -8,5 +8,5 @@ public class LevelDto {
 
     private String description;
 
-    private Integer points;
+    private Integer point;
 }

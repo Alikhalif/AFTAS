@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Level {
     @Id
-    @NotNull(message = "id should not be null")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotBlank(message = "description should not be empty")

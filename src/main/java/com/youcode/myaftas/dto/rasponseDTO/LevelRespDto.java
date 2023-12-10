@@ -11,7 +11,7 @@ public class LevelRespDto {
 
     private String description;
 
-    private Integer points;
+    private Integer point;
 
     private List<FishDto> fishList;
 }
