@@ -1,4 +1,4 @@
-package com.youcode.myaftas.dto.rasponseDTO;
+package com.youcode.myaftas.dto.responseDTO;
 
 import com.youcode.myaftas.dto.FishDto;
 import lombok.Data;

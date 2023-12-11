@@ -1,8 +1,7 @@
 package com.youcode.myaftas.Controller;
 
 import com.youcode.myaftas.dto.CompetitionDto;
-import com.youcode.myaftas.dto.MemberDto;
-import com.youcode.myaftas.dto.rasponseDTO.CompetitionRespDto;
+import com.youcode.myaftas.dto.responseDTO.CompetitionRespDto;
 import com.youcode.myaftas.service.CompititionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;

@@ -1,7 +1,7 @@
 package com.youcode.myaftas.service;
 
 import com.youcode.myaftas.dto.MemberDto;
-import com.youcode.myaftas.dto.rasponseDTO.MemberRespDto;
+import com.youcode.myaftas.dto.responseDTO.MemberRespDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

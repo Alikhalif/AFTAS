@@ -2,9 +2,7 @@ package com.youcode.myaftas.service.ImplService;
 
 import com.youcode.myaftas.Exception.ResourceNotFoundException;
 import com.youcode.myaftas.Utils.RankingId;
-import com.youcode.myaftas.dto.MemberDto;
 import com.youcode.myaftas.dto.RankingDto;
-import com.youcode.myaftas.dto.rasponseDTO.MemberRespDto;
 import com.youcode.myaftas.entities.Competition;
 import com.youcode.myaftas.entities.Member;
 import com.youcode.myaftas.entities.Ranking;

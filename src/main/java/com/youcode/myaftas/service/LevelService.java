@@ -1,8 +1,7 @@
 package com.youcode.myaftas.service;
 
 import com.youcode.myaftas.dto.LevelDto;
-import com.youcode.myaftas.dto.RankingDto;
-import com.youcode.myaftas.dto.rasponseDTO.LevelRespDto;
+import com.youcode.myaftas.dto.responseDTO.LevelRespDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -1,7 +1,7 @@
 package com.youcode.myaftas.Controller;
 
 import com.youcode.myaftas.dto.MemberDto;
-import com.youcode.myaftas.dto.rasponseDTO.MemberRespDto;
+import com.youcode.myaftas.dto.responseDTO.MemberRespDto;
 import com.youcode.myaftas.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -14,7 +14,6 @@ import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @Controller
 @RequestMapping("/api/member")

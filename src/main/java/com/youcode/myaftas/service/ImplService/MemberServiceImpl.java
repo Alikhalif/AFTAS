@@ -2,7 +2,7 @@ package com.youcode.myaftas.service.ImplService;
 
 import com.youcode.myaftas.Exception.ResourceNotFoundException;
 import com.youcode.myaftas.dto.MemberDto;
-import com.youcode.myaftas.dto.rasponseDTO.MemberRespDto;
+import com.youcode.myaftas.dto.responseDTO.MemberRespDto;
 import com.youcode.myaftas.entities.Member;
 import com.youcode.myaftas.repositories.MemberRepository;
 import com.youcode.myaftas.service.MemberService;

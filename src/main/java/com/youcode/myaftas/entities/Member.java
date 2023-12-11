@@ -29,6 +29,7 @@ public class Member {
     private String familyName;
 
     @NotNull(message = "accession Date should not be null")
+    @Temporal(TemporalType.DATE)
     private LocalDate accessionDate;
 
     @NotBlank(message = "nationality should not be null")

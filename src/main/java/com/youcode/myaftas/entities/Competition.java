@@ -23,6 +23,7 @@ public class Competition {
     private String code;
 
     @NotNull(message = "Date Should Not Be Null")
+    @Temporal(TemporalType.DATE) // 9albt 3liha
     private LocalDate date;
 
     @NotNull(message = "Start Time Should Not Be Null")
@@ -38,6 +39,7 @@ public class Competition {
     private String location;
 
     @NotNull(message = "Amount Should Not Be Null")
+    @Positive()
     private Double amount;
 
     @OneToMany(mappedBy = "competition", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)

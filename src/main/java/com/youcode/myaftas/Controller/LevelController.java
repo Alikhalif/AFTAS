@@ -1,9 +1,7 @@
 package com.youcode.myaftas.Controller;
 
 import com.youcode.myaftas.dto.LevelDto;
-import com.youcode.myaftas.dto.MemberDto;
-import com.youcode.myaftas.dto.rasponseDTO.LevelRespDto;
-import com.youcode.myaftas.dto.rasponseDTO.MemberRespDto;
+import com.youcode.myaftas.dto.responseDTO.LevelRespDto;
 import com.youcode.myaftas.service.LevelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;

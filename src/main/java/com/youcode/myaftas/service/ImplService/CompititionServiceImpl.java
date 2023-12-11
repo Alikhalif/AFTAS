@@ -2,11 +2,8 @@ package com.youcode.myaftas.service.ImplService;
 
 import com.youcode.myaftas.Exception.ResourceNotFoundException;
 import com.youcode.myaftas.dto.CompetitionDto;
-import com.youcode.myaftas.dto.MemberDto;
-import com.youcode.myaftas.dto.rasponseDTO.CompetitionRespDto;
-import com.youcode.myaftas.dto.rasponseDTO.MemberRespDto;
+import com.youcode.myaftas.dto.responseDTO.CompetitionRespDto;
 import com.youcode.myaftas.entities.Competition;
-import com.youcode.myaftas.entities.Member;
 import com.youcode.myaftas.repositories.CompetitionRepository;
 import com.youcode.myaftas.service.CompititionService;
 import org.modelmapper.ModelMapper;
@@ -37,7 +34,7 @@ public class CompititionServiceImpl implements CompititionService {
     @Override
     public void delete(String code){
         Competition competition = competitionRepository.findById(code)
-                .orElseThrow(()-> new ResourceNotFoundException("Compitition not found with id "+code));
+                .orElseThrow(()-> new ResourceNotFoundException("Compitition not found with code : "+code));
         competitionRepository.delete(competition);
     }
 
