@@ -27,9 +27,11 @@ public class Competition {
     private LocalDate date;
 
     @NotNull(message = "Start Time Should Not Be Null")
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime startTime;
 
     @NotNull(message = "End Time Should Not Be Null")
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime endTime;
 
     @Positive(message = "number Of Participants should be a positive value")

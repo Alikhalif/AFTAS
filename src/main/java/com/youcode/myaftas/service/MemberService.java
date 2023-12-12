@@ -11,6 +11,8 @@ public interface MemberService {
     MemberRespDto create(MemberDto memberDto);
     void delete(Integer id);
     MemberRespDto getOne(Integer id);
+    List<MemberRespDto> getByName(String name);
+    List<MemberRespDto> getByFamilyName(String fname);
     List<MemberRespDto> getAll();
     MemberRespDto update(Integer id, MemberDto memberDto);
     Page<MemberRespDto> findWithPagination(Pageable pageable);

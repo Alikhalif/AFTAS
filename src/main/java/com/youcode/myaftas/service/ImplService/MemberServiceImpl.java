@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -40,8 +41,30 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberRespDto getOne(Integer id){
         Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Question not found with id "+id));
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found with id "+id));
         return modelMapper.map(member, MemberRespDto.class);
+    }
+
+    @Override
+    public List<MemberRespDto> getByName(String name){
+        List<Member> members = memberRepository.findByName(name);
+        if (members.isEmpty()) {
+            throw new ResourceNotFoundException("Member not found with name " + name);
+        }
+        return members.stream()
+                .map(member -> modelMapper.map(member, MemberRespDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<MemberRespDto> getByFamilyName(String fname){
+        List<Member> members = memberRepository.findByFamilyName(fname);
+        if (members.isEmpty()) {
+            throw new ResourceNotFoundException("Member not found with family Name " + fname);
+        }
+        return members.stream()
+                .map(member -> modelMapper.map(member, MemberRespDto.class))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -76,6 +99,7 @@ public class MemberServiceImpl implements MemberService {
         member = memberRepository.save(member);
         return modelMapper.map(member, MemberRespDto.class);
     }
+
 
 
     @Override

@@ -9,6 +9,7 @@ import com.youcode.myaftas.entities.Ranking;
 import com.youcode.myaftas.repositories.CompetitionRepository;
 import com.youcode.myaftas.repositories.MemberRepository;
 import com.youcode.myaftas.repositories.RankingRepository;
+import com.youcode.myaftas.service.CompititionService;
 import com.youcode.myaftas.service.RankingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,40 +29,43 @@ public class RankingServiceImpl implements RankingService {
     @Autowired
     private MemberRepository memberRepository;
     @Autowired
+    private CompititionService compititionService;
+    @Autowired
     private ModelMapper modelMapper;
 
     @Override
     public RankingDto create(RankingDto rankingDto){
-        Ranking ranking = modelMapper.map(rankingDto, Ranking.class);
-        System.out.println(ranking);
-        System.out.println(rankingDto);
+        if (compititionService.getOne(rankingDto.getCompetition_id()).getNumberOfParticipants() > rankingRepository.countByCompetitionId(rankingDto.getCompetition_id())) {
 
-        Competition competition = competitionRepository.findById(rankingDto.getCompetition_id())
-                .orElseThrow(() -> new ResourceNotFoundException("not found quiz with id : "+rankingDto.getCompetition_id()));
-        ranking.setCompetition(competition);
+            Ranking ranking = modelMapper.map(rankingDto, Ranking.class);
 
-        System.out.println(competition);
+            Competition competition = competitionRepository.findById(rankingDto.getCompetition_id())
+                    .orElseThrow(() -> new ResourceNotFoundException("not found quiz with id : " + rankingDto.getCompetition_id()));
+            ranking.setCompetition(competition);
 
-        Member member = memberRepository.findById(rankingDto.getMember_id())
-                .orElseThrow(() -> new ResourceNotFoundException("not found member with id : "+rankingDto.getMember_id()));
-        ranking.setMember(member);
 
-        System.out.println(member);
+            Member member = memberRepository.findById(rankingDto.getMember_id())
+                    .orElseThrow(() -> new ResourceNotFoundException("not found member with id : " + rankingDto.getMember_id()));
+            ranking.setMember(member);
 
-        RankingId rankingId = new RankingId(
-                rankingDto.getCompetition_id(),
-                rankingDto.getMember_id()
-        );
 
-        if (rankingRepository.existsById(rankingId)){
-            throw new ResourceNotFoundException("Ranking already to the member");
-        }else {
-            ranking.setId(rankingId);
+            RankingId rankingId = new RankingId(
+                    rankingDto.getCompetition_id(),
+                    rankingDto.getMember_id()
+            );
+
+            if (rankingRepository.existsById(rankingId)) {
+                throw new ResourceNotFoundException("Ranking already to the member");
+            } else {
+                ranking.setId(rankingId);
+            }
+
+
+            ranking = rankingRepository.save(ranking);
+            return modelMapper.map(ranking, RankingDto.class);
+        }else{
+            throw new ResourceNotFoundException("Oops max this compitition is : "+compititionService.getOne(rankingDto.getCompetition_id()).getNumberOfParticipants());
         }
-
-
-        ranking = rankingRepository.save(ranking);
-        return modelMapper.map(ranking, RankingDto.class);
     }
 
     @Override

@@ -46,7 +46,7 @@ public class MemberController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/num/{id}")
     public ResponseEntity<Map<String, Object>> getOneMember(@PathVariable Integer id){
         Map<String, Object> message = new HashMap<>();
         try{
@@ -54,6 +54,30 @@ public class MemberController {
             return new ResponseEntity<>(message, HttpStatus.OK);
         }catch (Exception e){
             message.put("error", "Member Not deleted");
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/name/{name}")
+    public ResponseEntity<Map<String, Object>> getMemberByName(@PathVariable String name){
+        Map<String, Object> message = new HashMap<>();
+        try{
+            message.put("message", memberService.getByName(name));
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        }catch (Exception e){
+            message.put("error", "Member Not found");
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/familyname/{fname}")
+    public ResponseEntity<Map<String, Object>> getMemberByFamilyName(@PathVariable String fname){
+        Map<String, Object> message = new HashMap<>();
+        try{
+            message.put("message", memberService.getByFamilyName(fname));
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        }catch (Exception e){
+            message.put("error", "Member Not found");
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
     }

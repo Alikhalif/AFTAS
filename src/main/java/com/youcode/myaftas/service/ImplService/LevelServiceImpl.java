@@ -24,9 +24,16 @@ public class LevelServiceImpl implements LevelService {
 
     @Override
     public LevelRespDto create(LevelDto levelDto){
-        Level level = modelMapper.map(levelDto, Level.class);
-        level = levelRepository.save(level);
-        return modelMapper.map(level, LevelRespDto.class);
+        if(levelRepository.findMaxPoints() < levelDto.getPoint()){
+            Level level = modelMapper.map(levelDto, Level.class);
+            level = levelRepository.save(level);
+            return modelMapper.map(level, LevelRespDto.class);
+        }else
+        {
+            throw new ResourceNotFoundException("The checkpoint when entering imaging levels must be larger than before. ");
+        }
+
+
     }
 
     @Override

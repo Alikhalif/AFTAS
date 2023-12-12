@@ -30,7 +30,7 @@ public class RankingController {
             message.put("message",rankingService.create(rankingDto));
             return new ResponseEntity<>(message, HttpStatus.CREATED);
         }catch (Exception e){
-            message.put("error", e);
+            message.put("error", "ranking not created");
             return new ResponseEntity<>(message, HttpStatus.NOT_ACCEPTABLE);
         }
     }
