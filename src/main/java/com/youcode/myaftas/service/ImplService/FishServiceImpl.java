@@ -56,6 +56,11 @@ public class FishServiceImpl implements FishService {
     }
 
     @Override
+    public List<Fish> searchFishsByName(String name) {
+        return fishRepository.findByNameContainingIgnoreCase(name);
+    }
+
+    @Override
     public List<FishRespDto> findAll() {
         return fishRepository.findAll().stream().map(fish -> modelMapper.map(fish, FishRespDto.class)).collect(Collectors.toList());
     }

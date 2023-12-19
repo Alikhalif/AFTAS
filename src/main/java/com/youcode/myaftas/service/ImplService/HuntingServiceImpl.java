@@ -4,13 +4,11 @@ import com.youcode.myaftas.Exception.ResourceNotFoundException;
 import com.youcode.myaftas.dto.FishDto;
 import com.youcode.myaftas.dto.HuntingDto;
 import com.youcode.myaftas.dto.LevelDto;
+import com.youcode.myaftas.dto.RankingDto;
 import com.youcode.myaftas.dto.responseDTO.FishRespDto;
 import com.youcode.myaftas.dto.responseDTO.LevelRespDto;
 import com.youcode.myaftas.entities.*;
-import com.youcode.myaftas.repositories.CompetitionRepository;
-import com.youcode.myaftas.repositories.FishRepository;
-import com.youcode.myaftas.repositories.HuntingRepository;
-import com.youcode.myaftas.repositories.MemberRepository;
+import com.youcode.myaftas.repositories.*;
 import com.youcode.myaftas.service.HuntingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,6 +33,8 @@ public class HuntingServiceImpl implements HuntingService {
     private MemberRepository memberRepository;
     @Autowired
     private FishRepository fishRepository;
+    @Autowired
+    private RankingRepository rankingRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -54,7 +55,8 @@ public class HuntingServiceImpl implements HuntingService {
                 );
 
                 if (huntingExist != null) {
-                    huntingExist.setNomberOfFish(huntingDto.getNomberOfFish());
+                    Integer newNbrFish = huntingExist.getNomberOfFish() + huntingDto.getNomberOfFish();
+                    huntingExist.setNomberOfFish(newNbrFish);
                     huntingExist = huntingRepository.save(huntingExist);
                     return modelMapper.map(huntingExist, HuntingDto.class);
                     //throw new ResourceNotFoundException("Hunting already exists, just increases the number of fish hunted.");
@@ -72,6 +74,9 @@ public class HuntingServiceImpl implements HuntingService {
                     Fish fish = fishRepository.findById(huntingDto.getFish_id())
                             .orElseThrow(() -> new ResourceNotFoundException("not found fich with id : " + huntingDto.getFish_id()));
                     hunting.setFish(fish);
+
+
+
 
                     return huntingRepository.save(hunting);
                 }
@@ -119,5 +124,11 @@ public class HuntingServiceImpl implements HuntingService {
         return huntingPage.map(hunting -> modelMapper.map(hunting, HuntingDto.class));
     }
 
+    @Override
+    public List<HuntingDto> findHuntingByCompititionAndMember(String code, Integer id){
+        return Arrays.asList(modelMapper.map(huntingRepository.findHuntingByCompetitionCodeAndMemberId(code,id), HuntingDto[].class));
+
+
+    }
 
 }

@@ -35,6 +35,32 @@ public class RankingController {
         }
     }
 
+    @GetMapping("/calculate/{compName}")
+    public ResponseEntity<Map<String, Object>> calcule(@PathVariable String compName){
+        Map<String, Object> message = new HashMap<>();
+        try{
+            rankingService.calculate(compName);
+            message.put("message", "Ranking successfuly");
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        }catch (Exception e){
+            message.put("error", "Hunting Not found");
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/top3/{compName}")
+    public ResponseEntity<Map<String, Object>> getTop3Rank(@PathVariable String compName){
+        Map<String, Object> message = new HashMap<>();
+        try{
+
+            message.put("message", rankingService.getTop3Rank(compName));
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        }catch (Exception e){
+            message.put("error", "Ranking Not found");
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        }
+    }
+
 
     @DeleteMapping("/{code}/{id}")
     public ResponseEntity<Map<String, Object>> deleteRanking(@PathVariable String code, @PathVariable Integer id){

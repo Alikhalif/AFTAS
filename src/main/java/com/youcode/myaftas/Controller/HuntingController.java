@@ -22,6 +22,7 @@ public class HuntingController {
     @Autowired
     private HuntingService huntingService;
 
+
     @PostMapping
     public ResponseEntity<Map<String, Object>> createHunting(@Valid @RequestBody List<HuntingDto> huntingDto){
         Map<String, Object> message = new HashMap<>();
@@ -33,6 +34,7 @@ public class HuntingController {
             return new ResponseEntity<>(message, HttpStatus.NOT_ACCEPTABLE);
         }
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, Object>> deleteHunting(@PathVariable Integer id){

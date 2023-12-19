@@ -15,4 +15,10 @@ public interface RankingRepository extends JpaRepository<Ranking, RankingId> {
     @Query("SELECT COUNT(r) FROM Ranking r WHERE r.competition.code = :competitionCode")
     int countByCompetitionId(@Param("competitionCode") String competitionCode);
 
+
+    List<Ranking> findByCompetitionCode(String competitionCode);
+
+    List<Ranking> findTop3ByCompetitionCodeOrderByRankAsc(String competitionId);
+
+
 }

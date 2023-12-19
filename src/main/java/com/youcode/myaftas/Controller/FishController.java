@@ -5,6 +5,7 @@ import com.youcode.myaftas.dto.FishDto;
 import com.youcode.myaftas.dto.LevelDto;
 import com.youcode.myaftas.dto.responseDTO.FishRespDto;
 import com.youcode.myaftas.dto.responseDTO.LevelRespDto;
+import com.youcode.myaftas.entities.Fish;
 import com.youcode.myaftas.service.FishService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -61,6 +62,13 @@ public class FishController {
             message.put("error", "Fish Not Found");
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
+    }
+
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Fish>> searchFishByName(@RequestParam String name) {
+        List<Fish> members = fishService.searchFishsByName(name);
+        return ResponseEntity.ok(members);
     }
 
     @GetMapping("/all")
