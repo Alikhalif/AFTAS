@@ -2,6 +2,7 @@ package com.youcode.myaftas.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
@@ -14,6 +15,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Hunting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

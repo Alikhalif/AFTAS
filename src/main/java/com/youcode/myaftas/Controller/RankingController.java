@@ -40,10 +40,10 @@ public class RankingController {
         Map<String, Object> message = new HashMap<>();
         try{
             rankingService.calculate(compName);
-            message.put("message", "Ranking successfuly");
+            //message.put("message", "Ranking successfuly");
             return new ResponseEntity<>(message, HttpStatus.OK);
         }catch (Exception e){
-            message.put("error", "Hunting Not found");
+            message.put("error", e.getMessage());
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
     }

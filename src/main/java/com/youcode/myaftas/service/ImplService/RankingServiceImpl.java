@@ -85,48 +85,52 @@ public class RankingServiceImpl implements RankingService {
         List<Hunting> huntingListList = huntingRepository.findAllByCompetitionCode(compitition_name);
         List<RankingDto> rankings = new ArrayList<>();
 
-        huntingListList.forEach(
-                hunting -> {
-                    RankingDto ranking = new RankingDto();
-                    ranking.setCompetition_id(
-                            hunting.getCompetition().getCode()
-                    );
-                    ranking.setMember_id(
-                            hunting.getMember().getId()
-                    );
-                    //ranking.setId(rankingId);
-                    ranking.setScore(
-                            huntingRepository.findHuntingByCompetitionCodeAndMemberId(compitition_name, hunting.getMember().getId())
-                                    .stream()
-                                    .mapToInt(hunting2 ->hunting2.getNomberOfFish() * hunting2.getFish().getLevel().getPoint())
-                                    .sum()
-                            //hunting.getNomberOfFish() * hunting.getFish().getLevel().getPoint()
-                    );
+        if (!huntingListList.isEmpty()){
+            huntingListList.forEach(
+                    hunting -> {
+                        RankingDto ranking = new RankingDto();
+                        ranking.setCompetition_id(
+                                hunting.getCompetition().getCode()
+                        );
+                        ranking.setMember_id(
+                                hunting.getMember().getId()
+                        );
+                        //ranking.setId(rankingId);
+                        ranking.setScore(
+                                huntingRepository.findHuntingByCompetitionCodeAndMemberId(compitition_name, hunting.getMember().getId())
+                                        .stream()
+                                        .mapToInt(hunting2 ->hunting2.getNomberOfFish() * hunting2.getFish().getLevel().getPoint())
+                                        .sum()
+                        );
 
-                    //System.out.println(ranking);
-                    rankings.add(ranking);
-                }
-        );
-
-        List<RankingDto> rankings2 = sortByScore(rankings);
-
-        AtomicInteger i = new AtomicInteger(1);
-        rankings2.forEach(
-                rankingDto -> {
-                    //System.out.println(rankingDto);
-                    RankingId rankingId = new RankingId(
-                            rankingDto.getCompetition_id(),
-                            rankingDto.getMember_id()
-                    );
-
-                    if(rankingRepository.findById(rankingId).isEmpty()){
-                        rankingDto.setRank(i.getAndIncrement());
-                        System.out.println(rankingDto);
-
-                        create(rankingDto);
+                        //System.out.println(ranking);
+                        rankings.add(ranking);
                     }
-                }
-        );
+            );
+
+            List<RankingDto> rankings2 = sortByScore(rankings);
+
+            AtomicInteger i = new AtomicInteger(1);
+            rankings2.forEach(
+                    rankingDto -> {
+                        //System.out.println(rankingDto);
+                        RankingId rankingId = new RankingId(
+                                rankingDto.getCompetition_id(),
+                                rankingDto.getMember_id()
+                        );
+
+                        if(rankingRepository.findById(rankingId).isEmpty()){
+                            rankingDto.setRank(i.getAndIncrement());
+                            System.out.println(rankingDto);
+
+                            create(rankingDto);
+                        }
+                    }
+            );
+        }else {
+            throw new ResourceNotFoundException("hunting not found");
+        }
+
     }
 
 
@@ -149,10 +153,6 @@ public class RankingServiceImpl implements RankingService {
 
     private RankingRespDto convertToDto(Ranking ranking) {
         RankingRespDto rankingDto = modelMapper.map(ranking, RankingRespDto.class);
-
-        // Manually map Member and Competition
-
-
         return rankingDto;
     }
 

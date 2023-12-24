@@ -3,6 +3,7 @@ package com.youcode.myaftas.entities;
 import com.youcode.myaftas.Utils.RankingId;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
@@ -16,6 +17,7 @@ import javax.validation.constraints.PositiveOrZero;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Ranking {
     @EmbeddedId
     private RankingId id;

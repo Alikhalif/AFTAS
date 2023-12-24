@@ -41,7 +41,7 @@ public class MemberController {
             message.put("messge", "Member deleted successfully");
             return new ResponseEntity<>(message, HttpStatus.OK);
         }catch (Exception e){
-            message.put("error", "Member Not deleted");
+            message.put("error", e.getMessage());
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
     }
@@ -53,7 +53,7 @@ public class MemberController {
             message.put("message", memberService.getOne(id));
             return new ResponseEntity<>(message, HttpStatus.OK);
         }catch (Exception e){
-            message.put("error", "Member Not deleted");
+            message.put("error", e.getMessage());
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
     }
@@ -65,7 +65,7 @@ public class MemberController {
             message.put("message", memberService.getByName(name));
             return new ResponseEntity<>(message, HttpStatus.OK);
         }catch (Exception e){
-            message.put("error", "Member Not found");
+            message.put("error", e.getMessage());
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
     }
@@ -77,7 +77,7 @@ public class MemberController {
             message.put("message", memberService.getByFamilyName(fname));
             return new ResponseEntity<>(message, HttpStatus.OK);
         }catch (Exception e){
-            message.put("error", "Member Not found");
+            message.put("error", e.getMessage());
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
     }
@@ -89,24 +89,24 @@ public class MemberController {
             message.put("message", memberService.getAll());
             return new ResponseEntity<>(message, HttpStatus.OK);
         }catch (Exception e){
-            message.put("error", "Member Not found");
+            message.put("error", "Members Not found");
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> updateQuestion(@PathVariable Integer id, @Valid @RequestBody MemberDto memberDto){
+    public ResponseEntity<Map<String, Object>> updateMember(@PathVariable Integer id, @Valid @RequestBody MemberDto memberDto){
         Map<String, Object> message = new HashMap<>();
         try{
             message.put("message", memberService.update(id, memberDto));
             return new ResponseEntity<>(message, HttpStatus.OK);
         }catch (Exception e){
-            message.put("error", "Member Not found");
+            message.put("error", e.getMessage());
             return new ResponseEntity<>(message, HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
-    @GetMapping("/paginated")
+    @GetMapping("/paginated/")
     public ResponseEntity<List<MemberRespDto>> getPaginatedMembers(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size
